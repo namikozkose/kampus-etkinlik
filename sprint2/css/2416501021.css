@@ -1,0 +1,347 @@
+/* Namık Özköse — 2416501021 */
+:root {
+  --no: 2416501021;
+  --ton: mod(var(--no), 360);
+  --renk-ana: hsl(var(--ton) 65% 38%);
+  --renk-zemin: hsl(var(--ton) 30% 97%);
+  --font: Verdana, sans-serif;
+  --bosluk-m: 1rem;  --kose: 8px;
+
+  /* Yardımcı değişkenler (hepsi numaradan türeyen tondan) */
+  --renk-ana-koyu: hsl(var(--ton) 65% 28%);
+  --renk-ana-acik: hsl(var(--ton) 45% 88%);
+  --renk-yazi: hsl(var(--ton) 25% 15%);
+  --renk-yazi-soluk: hsl(var(--ton) 10% 40%);
+  --renk-kart: hsl(var(--ton) 30% 100%);
+  --renk-kenar: hsl(var(--ton) 20% 85%);
+  --renk-baslik-yazi: hsl(var(--ton) 30% 98%);
+  --renk-hata: hsl(0 70% 42%);
+  --renk-hata-zemin: hsl(0 80% 97%);
+  --bosluk-s: 0.5rem;
+  --bosluk-l: 1.5rem;
+  --icerik-genislik: 60rem;
+}
+
+/* ---------- Temel ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--renk-yazi);
+  background: var(--renk-zemin);
+  overflow-wrap: break-word;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3 {
+  line-height: 1.25;
+  margin: 0 0 var(--bosluk-s);
+}
+
+p {
+  margin: 0 0 var(--bosluk-s);
+}
+
+a {
+  color: var(--renk-ana);
+}
+
+/* ---------- Başlık ve menü (5 sayfada ortak) ---------- */
+header {
+  background: var(--renk-ana);
+  color: var(--renk-baslik-yazi);
+  padding: var(--bosluk-m);
+}
+
+header h1 {
+  font-size: 1.25rem;
+  margin: 0 auto var(--bosluk-s);
+  max-width: calc(var(--icerik-genislik) - 2 * var(--bosluk-m));
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-s) var(--bosluk-m);
+  max-width: calc(var(--icerik-genislik) - 2 * var(--bosluk-m));
+  margin: 0 auto;
+}
+
+nav a {
+  color: var(--renk-baslik-yazi);
+  text-decoration: none;
+  padding: var(--bosluk-s) 0;
+}
+
+nav a:hover,
+nav a:focus-visible,
+nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Ana içerik ---------- */
+main {
+  max-width: var(--icerik-genislik);
+  margin: 0 auto;
+  padding: var(--bosluk-m);
+}
+
+main > section + section {
+  margin-top: var(--bosluk-l);
+}
+
+main h2 {
+  font-size: 1.2rem;
+}
+
+.ok-link {
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  padding: var(--bosluk-s) 0;
+}
+
+.ok-link:hover,
+.ok-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---------- Kartlar ---------- */
+.kartlar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-m);
+  margin-bottom: var(--bosluk-m);
+}
+
+.kart {
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  display: flex;
+  flex-direction: column;
+}
+
+.kart h3 {
+  font-size: 1.05rem;
+}
+
+.kart p {
+  color: var(--renk-yazi-soluk);
+}
+
+.kart .ok-link {
+  margin-top: auto;
+}
+
+/* ---------- Program tablosu ---------- */
+.tablo-kutu {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+}
+
+caption {
+  text-align: left;
+  color: var(--renk-yazi-soluk);
+  padding-bottom: var(--bosluk-s);
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--bosluk-s);
+  border-bottom: 1px solid var(--renk-kenar);
+}
+
+th {
+  background: var(--renk-ana-acik);
+}
+
+/* ---------- Etkinlik detay ---------- */
+.detay {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-m);
+}
+
+.detay figure {
+  margin: 0;
+}
+
+.detay img {
+  width: 100%;
+  border-radius: var(--kose);
+  background: var(--renk-ana-acik);
+}
+
+.detay figcaption {
+  font-style: italic;
+  color: var(--renk-yazi-soluk);
+  margin-top: var(--bosluk-s);
+}
+
+.kunye {
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin: 0 0 var(--bosluk-m);
+}
+
+.kunye dt {
+  font-weight: bold;
+}
+
+.kunye dd {
+  margin: 0 0 var(--bosluk-s);
+}
+
+.detay-linkler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--bosluk-l);
+}
+
+/* ---------- Formlar ---------- */
+form {
+  display: grid;
+  gap: var(--bosluk-m);
+  max-width: 36rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--bosluk-s);
+  color: var(--renk-yazi);
+  background: var(--renk-kart);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+}
+
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--renk-ana);
+  outline-offset: 1px;
+  border-color: var(--renk-ana);
+}
+
+/* Boş gönderilince hatalı alan kırmızı olur */
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid {
+  border-color: var(--renk-hata);
+  background: var(--renk-hata-zemin);
+  color: var(--renk-hata);
+}
+
+.hata {
+  display: none;
+  color: var(--renk-hata);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+input:user-invalid + .hata,
+select:user-invalid + .hata,
+textarea:user-invalid + .hata {
+  display: block;
+}
+
+button {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--bosluk-s) var(--bosluk-l);
+  font-weight: bold;
+  color: var(--renk-baslik-yazi);
+  background: var(--renk-ana);
+  border: 0;
+  border-radius: var(--kose);
+  cursor: pointer;
+}
+
+button:hover,
+button:focus-visible {
+  background: var(--renk-ana-koyu);
+}
+
+/* ---------- Alt bilgi ---------- */
+footer {
+  text-align: center;
+  color: var(--renk-yazi-soluk);
+  padding: var(--bosluk-m);
+  border-top: 1px solid var(--renk-kenar);
+  margin-top: var(--bosluk-l);
+}
+
+footer p {
+  margin: 0;
+}
+
+/* ---------- Geniş ekran ---------- */
+@media (min-width: 40rem) {
+  .kartlar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .detay {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  button {
+    width: auto;
+    justify-self: start;
+  }
+}
+
+@media (min-width: 56rem) {
+  .kartlar--uc {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
