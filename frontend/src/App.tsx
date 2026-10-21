@@ -3,11 +3,7 @@ import { useEffect, useState } from "react";
 import type { Category } from "./types/campus-event";
 import type { PageName } from "./types/page";
 import { events } from "./data/events";
-import {
-  filterByCategory,
-  findEventById,
-  searchEvents,
-} from "./utils/filter-events";
+import { filterByCategory, findEventById, searchEvents } from "./utils/filter-events";
 import Header from "./components/layout/Header";
 import Navigation from "./components/layout/Navigation";
 import Footer from "./components/layout/Footer";
@@ -34,9 +30,7 @@ function App() {
     setSelectedId(id);
   }
 
-  const upcoming = [...events]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .slice(0, 2);
+  const upcoming = [...events].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 2);
 
   const filtered = filterByCategory(searchEvents(events, searchText), category);
 
@@ -68,14 +62,7 @@ function App() {
           <section>
             <h2>Yaklaşan 2 Etkinlik</h2>
             <EventList events={upcoming} onShowDetail={showDetail} />
-            <a
-              className="buton-link"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                go("events");
-              }}
-            >
+            <a className="buton-link" href="#" onClick={(e) => { e.preventDefault(); go("events"); }}>
               Tüm etkinlikleri gör
             </a>
           </section>
@@ -91,9 +78,7 @@ function App() {
                 onSearchChange={setSearchText}
                 onCategoryChange={setCategory}
               />
-              {filtered.length > 0 && (
-                <p className="sonuc">{filtered.length} etkinlik listeleniyor.</p>
-              )}
+              {filtered.length > 0 && <p className="sonuc">{filtered.length} etkinlik listeleniyor.</p>}
               <EventList
                 events={filtered}
                 onShowDetail={showDetail}
@@ -108,28 +93,12 @@ function App() {
                 <table>
                   <caption>Ekim Ayı Özet Programı</caption>
                   <thead>
-                    <tr>
-                      <th>Tarih</th>
-                      <th>Etkinlik</th>
-                      <th>Yer</th>
-                    </tr>
+                    <tr><th>Tarih</th><th>Etkinlik</th><th>Yer</th></tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>12 Ekim</td>
-                      <td>Kariyer Günleri</td>
-                      <td>A Blok</td>
-                    </tr>
-                    <tr>
-                      <td>20 Ekim</td>
-                      <td>Robotik Atölyesi</td>
-                      <td>Lab 2</td>
-                    </tr>
-                    <tr>
-                      <td>27 Ekim</td>
-                      <td>Siber Güvenlik</td>
-                      <td>B Blok</td>
-                    </tr>
+                    <tr><td>12 Ekim</td><td>Kariyer Günleri</td><td>A Blok</td></tr>
+                    <tr><td>20 Ekim</td><td>Robotik Atölyesi</td><td>Lab 2</td></tr>
+                    <tr><td>27 Ekim</td><td>Siber Güvenlik</td><td>B Blok</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -139,33 +108,18 @@ function App() {
 
         {page === "detail" && !selected && (
           <>
-            <div className="hata-kutu">
-              Böyle bir etkinlik yok. Listeden bir etkinlik seçin.
-            </div>
-            <a
-              className="buton-link"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                go("events");
-              }}
-            >
+            <div className="hata-kutu">Böyle bir etkinlik yok. Listeden bir etkinlik seçin.</div>
+            <a className="buton-link" href="#" onClick={(e) => { e.preventDefault(); go("events"); }}>
               ← Listeye dön
             </a>
           </>
         )}
 
         {page === "detail" && selected && (
-          <EventDetail
-            event={selected}
-            onBack={() => go("events")}
-            onEdit={(id) => go("update", id)}
-          />
+          <EventDetail event={selected} onBack={() => go("events")} onEdit={(id) => go("update", id)} />
         )}
 
-        {(page === "add" || page === "update") && (
-          <EventForm onSubmit={() => window.scrollTo(0, 0)} />
-        )}
+        {(page === "add" || page === "update") && <EventForm onSubmit={() => window.scrollTo(0, 0)} />}
       </main>
 
       <Footer />
