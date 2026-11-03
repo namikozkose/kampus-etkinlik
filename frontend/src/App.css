@@ -450,3 +450,137 @@ nav a[aria-current="page"] {
 .form-not {
   color: var(--renk-yazi-soluk);
 }
+
+/* ---------- Sprint 6 eklemeleri ---------- */
+
+/* Menü artık header'ın dışında; başlıkla aynı yeşil şerit gibi görünsün */
+header {
+  padding-bottom: 0;
+}
+
+header .alt-baslik {
+  margin-bottom: 0;
+}
+
+nav {
+  max-width: none;
+  margin: 0;
+  background: var(--renk-ana);
+  padding: var(--bosluk-s) max(var(--bosluk-m), calc((100% - var(--icerik-genislik)) / 2 + var(--bosluk-m))) var(--bosluk-m);
+}
+
+.bolum-baslik {
+  margin-bottom: var(--bosluk-m);
+}
+
+/* Hata mesajları ve kırmızı kutular */
+.hata-metni {
+  display: block;
+  color: var(--renk-hata);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.hata-metni:empty {
+  display: none;
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--renk-hata);
+  background: var(--renk-hata-zemin);
+}
+
+.mesaj {
+  border: 1px solid var(--renk-ana);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin-bottom: var(--bosluk-m);
+}
+
+.mesaj-basari {
+  color: var(--renk-ana-koyu);
+  background: var(--renk-ana-acik);
+}
+
+.form-linkler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-s) var(--bosluk-m);
+  margin-top: var(--bosluk-m);
+}
+
+/* Yönetim tablosu: masaüstünde tablo, telefonda kart */
+.tablo {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--bosluk-m);
+}
+
+.tablo th {
+  background: var(--renk-ana);
+  color: #fff;
+}
+
+.tablo td {
+  vertical-align: middle;
+}
+
+.islemler {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-s);
+}
+
+.buton {
+  width: auto;
+  min-height: 0;
+  padding: var(--bosluk-s) var(--bosluk-m);
+}
+
+.buton-sil {
+  background: var(--renk-hata);
+}
+
+.buton-sil:hover,
+.buton-sil:focus-visible {
+  background: hsl(0 70% 32%);
+}
+
+@media (max-width: 699px) {
+  .tablo,
+  .tablo tbody {
+    display: block;
+    border: 0;
+    background: none;
+  }
+
+  .tablo thead {
+    display: none;
+  }
+
+  .tablo tr {
+    display: block;
+    background: var(--renk-kart);
+    border: 1px solid var(--renk-kenar);
+    border-radius: var(--kose);
+    padding: var(--bosluk-s);
+    margin-bottom: var(--bosluk-m);
+  }
+
+  .tablo td {
+    display: block;
+    border: 0;
+    padding: 0.25rem var(--bosluk-s);
+  }
+
+  .tablo td.islemler {
+    display: flex;
+  }
+
+  .tablo td[data-baslik]::before {
+    content: attr(data-baslik) ": ";
+    font-weight: 700;
+  }
+}

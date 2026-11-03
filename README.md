@@ -1,4 +1,4 @@
-https://kampus-etkinlik.vercel.app
+https://namikozkose-frontend.vercel.app
 
 # Kampüs Etkinlikleri
 
@@ -29,6 +29,38 @@ Bu proje, kampüsteki etkinliklerin (seminerler, atölyeler, söyleşiler) tek b
 - `utils/filter-events.ts` içinde saf fonksiyonlar: `searchEvents`, `filterByCategory`, `findEventById`.
 - 5 sayfa tek `App.tsx` içinde; sayfa geçişi, arama ve kategori `useState` ile, sekme başlığı `useEffect` ile.
 - Dosyaların açıklamaları: [frontend/README.md](frontend/README.md)
+
+## 🧭 Sprint 6 + Vize: Router, Context ve Yönetim
+- `react-router-dom` ile 10 adres, 10 sayfa (`src/pages/`). `App.tsx` sadece Header, Navigation, Routes ve Footer; state yok.
+- Menü `NavLink`, sayfa içi bağlantılar `Link`, kayıttan sonra yönlendirme `useNavigate`.
+- `context/EventsContext.tsx`: etkinlik listesi ve `addEvent`, `updateEvent`, `deleteEvent` tek yerde; sayfalar `useEvents()` ile alır.
+- `EventForm` controlled form; kurallar `utils/validate-event.ts` içinde saf fonksiyon.
+- Yönetim sayfası: tablo, Düzenle, Sil (onaylı), Yeni etkinlik. Telefonda tablo karta dönüşür.
+- Giriş, Kayıt ve Şifremi Unuttum sayfaları: sadece arayüz ve doğrulama, bilgiler hiçbir yere gönderilmez.
+
+### Canlı adres
+https://namikozkose-frontend.vercel.app
+
+### Kurulum
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Route listesi
+| Adres | Sayfa |
+| --- | --- |
+| `/` | HomePage |
+| `/events` | EventsPage |
+| `/events/:id` | EventDetailPage |
+| `/login` | LoginPage |
+| `/register` | RegisterPage |
+| `/forgot-password` | ForgotPasswordPage |
+| `/admin` | AdminPage |
+| `/admin/new` | AddEventPage |
+| `/admin/:id/edit` | EditEventPage |
+| `*` | NotFoundPage |
 
 ---
 **Geliştirici:** Namık Özköse · 2416501021

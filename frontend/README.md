@@ -1,6 +1,6 @@
-https://kampus-etkinlik.vercel.app
+https://namikozkose-frontend.vercel.app
 
-# Kampüs Etkinlikleri — Sprint 4 (Vite + TypeScript + React)
+# Kampüs Etkinlikleri — Sprint 6 (React Router + Context)
 
 Namık Özköse · 2416501021
 
@@ -24,16 +24,36 @@ npm run preview  # build edilmiş hâli açar
 | `tsconfig*.json` | TypeScript derleyicisinin ayarlarıdır (uygulama ve Vite yapılandırması için ayrı). |
 | `vite.config.ts` | Vite'ın ayarlarıdır; React eklentisini burada etkinleştirir. |
 | `index.html` | Uygulamanın tek HTML dosyasıdır; içinde React'in çizileceği boş `div#root` bulunur. |
-| `src/main.tsx` | React'i başlatır ve `App` bileşenini `#root` içine çizer. |
-| `src/App.tsx` | Uygulamanın ana bileşenidir; 5 sayfanın hepsi state ile burada çizilir. |
+| `vercel.json` | Vercel'de her adresi `index.html`'e yönlendirir; `/events` gibi bir adreste sayfa yenilenince 404 vermez. |
+| `src/main.tsx` | React'i başlatır; `App`'i `BrowserRouter` ve `EventsProvider` ile sarar. |
+| `src/App.tsx` | Kabuk: Header, Navigation, `Routes` (10 adres) ve Footer. State yok. |
+| `src/pages/` | Adrese bağlı 10 sayfa; veriyi bulur ve bileşenlere verir. |
+| `src/context/EventsContext.tsx` | Etkinlik listesi ile `addEvent`, `updateEvent`, `deleteEvent`; `useEvents()` ile okunur. |
+| `src/components/` | Sadece çizen bileşenler: `layout/`, `events/`, `forms/EventForm`. |
 | `src/App.css` | Sprint 3'ten taşınan, öğrenci numarasına göre renklenen stillerdir. |
 | `src/index.css` | Tüm sayfaya genel stil dosyasıdır; bu sprintte boş bırakıldı. |
-| `src/types/campus-event.ts` | `Category` ve `CampusEvent` tiplerini tanımlar (bir etkinlik neye benzer). |
+| `src/types/campus-event.ts` | `Category`, `CampusEvent`, form için `EventFormData` ve `EventFormErrors` tipleri. |
 | `src/data/events.ts` | `CampusEvent[]` tipindeki 6 etkinliğin kayıtlarıdır. |
 | `src/utils/filter-events.ts` | Arama, kategori filtresi ve id ile bulma için saf fonksiyonlardır. |
+| `src/utils/format-date.ts` | Tarihi "12 Ekim 2026" biçiminde yazar. |
+| `src/utils/validate-event.ts` | Etkinlik formunun kuralları; hata yoksa `{}` döner. |
 | `public/` | Olduğu gibi kopyalanan dosyalardır (`afis.svg`, `favicon.svg`). |
 
 ## Sayfalar
 
-Router kullanılmaz; hangi sayfanın açık olduğunu `page` state'i belirler:
-Ana Sayfa, Etkinlikler (arama + kategori), Detay, Ekle ve Güncelle (form sadece görünüm).
+Hangi sayfanın açık olduğunu adres belirler (React Router):
+
+| Adres | Sayfa |
+| --- | --- |
+| `/` | HomePage: yaklaşan 2 etkinlik |
+| `/events` | EventsPage: arama + kategori filtresi |
+| `/events/:id` | EventDetailPage: `useParams` ile id, yoksa "Sayfa bulunamadı" |
+| `/login` | LoginPage |
+| `/register` | RegisterPage |
+| `/forgot-password` | ForgotPasswordPage |
+| `/admin` | AdminPage: tablo, Düzenle, Sil (onaylı), Yeni etkinlik |
+| `/admin/new` | AddEventPage |
+| `/admin/:id/edit` | EditEventPage |
+| `*` | NotFoundPage |
+
+Veriler bellekte tutulur: sayfa yenilenince liste başa döner (backend sonraki sprintlerde).
