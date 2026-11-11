@@ -62,6 +62,12 @@ npm run dev
 | `/admin/:id/edit` | EditEventPage |
 | `*` | NotFoundPage |
 
+## 🖥️ Sprint 7: Express ile REST API
+- Repo kökünde `frontend/` yanına ayrı `backend/` uygulaması: Node + Express, `localhost:3000`.
+- `GET /health`, `GET /events`, `GET /events/:id`, `POST /events`; veriler şimdilik bellekte.
+- Port `.env`'den okunur; route ve controller ayrı dosyalarda.
+- Çalıştırma, PORT ve REST sözleşmesi: [backend/README.md](backend/README.md)
+
 ---
 **Geliştirici:** Namık Özköse · 2416501021
 
