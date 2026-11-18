@@ -75,11 +75,11 @@ Bütün hatalar aynı biçimde döner:
 | `src/server.js` | `.env`'i okur, önce veritabanına bağlanır, sonra portu dinler |
 | `src/routes/event-routes.js` | Hangi adres hangi fonksiyona gider |
 | `src/controllers/event-controller.js` | `Event.find` / `findById` / `create` ile isteği işler |
-| `requests/kampus-api.json` | 6 isteklik Postman collection'ı (v2.1) |
+| `requests/kampus-api.json` | 6 isteklik Postman collection'ı (v2.1, 15 test) |
 
 ## Postman
 
-`requests/kampus-api.json` dosyasını Postman'e **Import** et. Önce `npm run seed`, sonra `npm run dev`. `npm run seed` her çalıştığında `_id`'ler değişir: **3 Tek etkinlik** isteğine **2 Etkinlik listesi**'nden kopyaladığın bir `_id`'yi yaz.
+`requests/kampus-api.json` dosyasını Postman'e **Import** et. Önce `npm run seed`, sonra `npm run dev`. İstekleri sırayla çalıştır ya da **Run collection** de: **2 Etkinlik listesi** ilk kaydın `_id`'sini `eventId` değişkenine kaydeder, **3 Tek etkinlik** onu kullanır. Her istekte test script'leri var (toplam 15 test).
 
 | İstek | Beklenen |
 | --- | --- |

@@ -22,7 +22,20 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"status ok\", () => pm.expect(pm.response.json().status).to.eql(\"ok\"));",
+              "pm.test(\"student = 2416501021\", () => pm.expect(pm.response.json().student).to.eql(\"2416501021\"));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "2 Etkinlik listesi",
@@ -41,7 +54,22 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const list = pm.response.json();",
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Dizi ve boş değil\", () => pm.expect(list).to.be.an(\"array\").that.is.not.empty);",
+              "pm.test(\"Her kayıtta _id, createdAt, updatedAt var\", () => list.forEach(e => pm.expect(e).to.include.keys(\"_id\", \"createdAt\", \"updatedAt\")));",
+              "if (Array.isArray(list) && list.length) pm.collectionVariables.set(\"eventId\", list[0]._id);"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "3 Tek etkinlik",
@@ -49,7 +77,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/events/6afd4b7c60617395d9ce001f",
+          "raw": "http://localhost:3000/events/{{eventId}}",
           "protocol": "http",
           "host": [
             "localhost"
@@ -57,11 +85,23 @@
           "port": "3000",
           "path": [
             "events",
-            "6afd4b7c60617395d9ce001f"
+            "{{eventId}}"
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Listedeki _id ile aynı kayıt\", () => pm.expect(pm.response.json()._id).to.eql(pm.collectionVariables.get(\"eventId\")));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "4 Olmayan etkinlik (404)",
@@ -81,7 +121,19 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", () => pm.response.to.have.status(404));",
+              "pm.test(\"Event not found mesajı\", () => pm.expect(pm.response.json().error.message).to.eql(\"Event not found\"));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "5 Etkinlik oluştur (201)",
@@ -114,7 +166,21 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const e = pm.response.json();",
+              "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"_id döndü\", () => pm.expect(e._id).to.be.a(\"string\"));",
+              "pm.test(\"createdAt döndü\", () => pm.expect(e.createdAt).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "6 Eksik veri (400)",
@@ -147,7 +213,25 @@
           ]
         }
       },
-      "response": []
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"date ve category zorunlu mesajı\", () => { const m = pm.response.json().error.message; pm.expect(m).to.include(\"date\"); pm.expect(m).to.include(\"category\"); });"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "eventId",
+      "value": ""
     }
   ]
 }
