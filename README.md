@@ -68,16 +68,13 @@ npm run dev
 - Port `.env`'den okunur; route ve controller ayrı dosyalarda.
 - Çalıştırma, PORT ve REST sözleşmesi: [backend/README.md](backend/README.md)
 
-## 🍃 Sprint 8: MongoDB, Mongoose ve Canlıya Alma
-- Bellek içi dizi yerine **MongoDB**: `src/models/db.js` bağlantıyı `.env`'deki `MONGODB_URI`'den alır (yoksa yerel `mongodb://localhost:27017/kampus`).
-- `src/models/event.js`: Mongoose şeması (zorunlu alanlar, kategori listesi, tarih biçimi, kapasite ≥ 0) ve `Event` modeli.
-- Tam CRUD: `GET`, `POST`, `PUT`/`PATCH`, `DELETE /events/:id`; hatalı veri 400, olmayan kayıt 404.
-- `npm run seed` 6 başlangıç etkinliğini veritabanına yükler.
-- Veritabanı **MongoDB Atlas** üzerinde, API **Vercel** üzerinde; `MONGODB_URI` Vercel'de ortam değişkeni.
-- Postman collection'ı (**Namık Özköse**, 11 istek, otomatik testli): `backend/requests/kampus-api.json`, test ekran görüntüleri: [backend/README.md](backend/README.md#test-ekran-görüntüleri-vercel-adresi-üzerinde)
-
-### Canlı API
-_Vercel adresi buraya eklenecek_
+## 🍃 Sprint 8: MongoDB ve Mongoose (kalıcı veri)
+- Adresler aynı kaldı, verinin yeri değişti: controller'lar dizi yerine `Event.find` / `findById` / `create` kullanıyor, kayıtlar MongoDB Atlas'ta (`kampus` veritabanı, `events` collection).
+- `src/config/database.js`: bağlantı adresi sadece `.env`'deki `MONGODB_URI`'den gelir; önce veritabanı, sonra sunucu.
+- `src/models/event-model.js`: schema kuralları (required, trim, minlength/maxlength, enum, min/default, timestamps).
+- `npm run seed`: önce sil, sonra ekle; her çalıştırmada 6 kayıt.
+- Geçersiz/olmayan id 404, eksik veri 400; beklenmeyen hata sunucuyu durdurmaz.
+- Ayrıntılar: [backend/README.md](backend/README.md)
 
 ---
 **Geliştirici:** Namık Özköse · 2416501021

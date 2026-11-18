@@ -2,9 +2,7 @@
 
 Namık Özköse · 2416501021
 
-🔗 **Canlı API:** _Vercel adresi buraya eklenecek_
-
-Node + Express + Mongoose ile etkinlikleri yöneten REST API. Veriler **MongoDB**'de tutulur: geliştirirken bilgisayardaki MongoDB, canlıda **MongoDB Atlas** (Cloud). Hangisine bağlanılacağını `.env` içindeki `MONGODB_URI` belirler.
+Node + Express + Mongoose ile etkinlikleri JSON olarak veren REST API. Etkinlikler artık **MongoDB**'de duruyor: sunucu kapanıp açılınca POST ile eklenenler kaybolmaz. Geliştirmede veritabanı MongoDB Atlas üzerindeki `kampus` veritabanı, `events` collection'ı.
 
 ## Çalıştırma
 
@@ -12,7 +10,8 @@ Node + Express + Mongoose ile etkinlikleri yöneten REST API. Veriler **MongoDB*
 cd backend
 npm install
 cp .env.example .env   # Windows: copy .env.example .env
-npm run seed           # 6 başlangıç etkinliğini veritabanına yükler
+                       # .env içindeki MONGODB_URI'yi kendi veritabanı adresinle değiştir
+npm run seed           # events collection'ını 6 örnek etkinlikle doldurur
 npm run dev            # http://localhost:3000
 ```
 
@@ -20,35 +19,31 @@ npm run dev            # http://localhost:3000
 | --- | --- |
 | `npm run dev` | `node --watch src/server.js`: dosya değişince sunucuyu yeniden başlatır |
 | `npm start` | `node src/server.js` |
-| `npm run seed` | `events` koleksiyonunu boşaltıp `src/data/events.js` içindeki 6 etkinliği ekler |
-
-Yerel MongoDB arka planda çalışmıyorsa (Windows, yönetici PowerShell): `net start MongoDB`
+| `npm run seed` | Önce `events`'i boşaltır (`deleteMany`), sonra 6 etkinlik ekler; kaç kez çalışırsa çalışsın 6 kayıt kalır |
 
 ## Ortam değişkenleri
 
 | Değişken | Örnek | Açıklama |
 | --- | --- | --- |
 | `PORT` | `3000` | Sunucunun dinlediği port. Yoksa 3000. |
-| `MONGODB_URI` | `mongodb+srv://KULLANICI:SIFRE@cluster0.xxxxx.mongodb.net/kampus?retryWrites=true&w=majority` | Veritabanı adresi. Yoksa `mongodb://localhost:27017/kampus`. |
+| `MONGODB_URI` | `mongodb://127.0.0.1:27017/kampus` | Veritabanı adresi, sonunda veritabanı adı (`/kampus`). Zorunlu: yoksa sunucu "MONGODB_URI tanımlı değil" diyerek başlamaz. |
 
-`.env` GitHub'a gönderilmez (`.gitignore`); gerekli değişkenler `.env.example` dosyasında. Canlıda `MONGODB_URI` Vercel'de **Environment Variable** olarak tanımlıdır.
+`.env` GitHub'a gönderilmez (`.gitignore`). Gerçek Atlas adresi ve şifre sadece `.env` dosyasında durur; `.env.example`'da yer tutucu var.
 
 ## REST sözleşmesi
 
 | Method | Endpoint | Amaç | Başarılı | Hata |
 | --- | --- | --- | --- | --- |
 | GET | `/health` | Sunucu ayakta mı | 200 | — |
-| GET | `/events` | Listeyi getir (`?category=Atölye` isteğe bağlı), tarihe göre sıralı | 200 | — |
-| GET | `/events/:id` | Tek etkinlik | 200 | 404 |
-| POST | `/events` | Yeni etkinlik (`title`, `category`, `date` zorunlu) | 201 | 400 |
-| PUT / PATCH | `/events/:id` | Gönderilen alanları güncelle | 200 | 400, 404 |
-| DELETE | `/events/:id` | Sil | 204 | 404 |
+| GET | `/events` | Listeyi tarihe göre getir (`?category=Atölye` isteğe bağlı) | 200 | — |
+| GET | `/events/:id` | Tek etkinlik (`:id` = MongoDB `_id`) | 200 | 404 |
+| POST | `/events` | Yeni etkinlik | 201 | 400 |
 
-`id`, MongoDB'nin verdiği `_id`'dir (ör. `6afd46860f587c9b7a9e1975`); yanıtlarda frontend'deki `CampusEvent` tipiyle aynı şekilde `id` olarak döner.
+- Sprint 7'deki `event-2` gibi id'ler yok; her kaydın kimliği MongoDB'nin verdiği `_id` (ör. `6af57a006f13ad018f7b7a55`). Kayıtlarda `createdAt` ve `updatedAt` de var.
+- Biçimi geçersiz id (`/events/yok`) ve bulunmayan id ikisi de **404** döner (500 değil).
+- Doğrulamayı schema yapar, controller `ValidationError`'ı **400**'e çevirir. Beklenmeyen hata 500 `"Server error"` döner, sunucu çökmez.
 
-**Doğrulama (Mongoose şeması):** `category` yalnızca `Seminer`, `Atölye`, `Söyleşi`, `Yarışma` olabilir · `date` `YYYY-AA-GG` biçiminde · `capacity` 0 veya daha büyük. Kurala uymayan istek 400 döner.
-
-**Status code'lar:** 200 tamam · 201 oluşturuldu · 204 içerik yok · 400 eksik/yanlış veri · 404 bulunamadı · 500 sunucu hatası
+**Status code'lar:** 200 tamam · 201 oluşturuldu · 400 eksik/yanlış veri · 404 bulunamadı · 500 sunucu hatası
 
 Bütün hatalar aynı biçimde döner:
 
@@ -56,31 +51,41 @@ Bütün hatalar aynı biçimde döner:
 { "error": { "message": "Event not found" } }
 ```
 
+## Schema kuralları (`src/models/event-model.js`)
+
+| Alan | Kural |
+| --- | --- |
+| `title` | zorunlu, `trim`, 3–100 karakter |
+| `category` | zorunlu, sadece `Seminer`, `Atölye`, `Söyleşi`, `Yarışma` |
+| `capacity` | sayı, en az 0, varsayılan 0 |
+| `date` | zorunlu |
+| `time`, `location` | varsayılan `""` (`location` trim) |
+| `description` | `trim`, en fazla 500 karakter, varsayılan `""` |
+| `createdAt`, `updatedAt` | `timestamps: true` ile otomatik |
+
 ## Dosyalar
 
 | Dosya | İşi |
 | --- | --- |
-| `src/app.js` | Express uygulaması, middleware (`cors`, `express.json`), route'lar, hata yakalayıcı |
-| `src/server.js` | `.env`'i okur, veritabanına bağlanır, portu dinler |
-| `src/models/db.js` | Mongoose bağlantısı (`MONGODB_URI`), bağlantı olayları, kapanışta bağlantıyı kapatma |
-| `src/models/event.js` | Etkinlik şeması ve `Event` modeli (`events` koleksiyonu) |
+| `src/config/database.js` | `connectDatabase()`: `MONGODB_URI` ile bağlanır, sadece host ve veritabanı adını yazar |
+| `src/models/event-model.js` | Etkinlik schema'sı ve `Event` modeli (collection: `events`) |
+| `src/data/seed-events.js` | 6 örnek etkinlik (id yok) |
+| `src/seed.js` | `npm run seed`: sil, sonra ekle |
+| `src/app.js` | Express uygulaması, middleware, route'lar, 404 ve hata middleware'i |
+| `src/server.js` | `.env`'i okur, önce veritabanına bağlanır, sonra portu dinler |
 | `src/routes/event-routes.js` | Hangi adres hangi fonksiyona gider |
-| `src/controllers/event-controller.js` | Mongoose ile CRUD, yanıtı döndürür |
-| `src/data/events.js` + `src/seed.js` | Başlangıç verisi ve onu veritabanına yükleyen script |
-| `api/index.js` + `vercel.json` | Vercel'de Express uygulamasını serverless fonksiyon olarak çalıştırır |
-| `requests/kampus-api.json` | **Namık Özköse** Postman collection'ı (11 istek, testli, v2.1) |
+| `src/controllers/event-controller.js` | `Event.find` / `findById` / `create` ile isteği işler |
+| `requests/kampus-api.json` | 6 isteklik Postman collection'ı (v2.1, testli) |
 
 ## Postman
 
-`requests/kampus-api.json` dosyasını Postman'e **Import** edin. Adres `baseUrl` collection değişkeninden gelir (varsayılan `http://localhost:3000`; canlı test için Vercel adresi). İstekleri sırayla çalıştırın veya **Run collection** deyin: liste isteği `eventId`'yi, oluşturma isteği `newEventId`'yi kaydeder; sonraki istekler bunları kullanır.
+`requests/kampus-api.json` dosyasını Postman'e **Import** et. Önce `npm run seed`, sonra `npm run dev`. İstekleri sırayla çalıştır: **2 Etkinlik listesi** ilk kaydın `_id`'sini `eventId` değişkenine kaydeder, **3 Tek etkinlik** onu kullanır.
 
-## Test ekran görüntüleri (Vercel adresi üzerinde)
-
-| İstek | Ekran görüntüsü |
+| İstek | Beklenen |
 | --- | --- |
-| Collection Runner (tüm testler) | ![Tüm testler](tests/RunCollection.png) |
-| GET /events | ![Liste](tests/ListEvents.png) |
-| GET /events/:id | ![Tek etkinlik](tests/GetEvent.png) |
-| POST /events | ![Ekle](tests/AddEvent.png) |
-| PUT /events/:id | ![Güncelle](tests/UpdateEvent.png) |
-| DELETE /events/:id | ![Sil](tests/DeleteEvent.png) |
+| 1 Health | 200, `student: "2416501021"` |
+| 2 Etkinlik listesi | 200, 6 kayıt (seed sonrası) |
+| 3 Tek etkinlik | 200 |
+| 4 Olmayan etkinlik (404) | 404 |
+| 5 Etkinlik oluştur (201) | 201, `_id` ve `createdAt` |
+| 6 Eksik veri (400) | 400, `date` ve `category` zorunlu |
