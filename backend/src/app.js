@@ -1,16 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { connectDB } from "./models/db.js";
 import eventRoutes from "./routes/event-routes.js";
 
 const app = express();
 app.use(cors());
-app.use(express.json()); // JSON body → req.body
-app.use(express.urlencoded({ extended: true })); // form body (x-www-form-urlencoded)
-
-app.get("/", (req, res) => {
-  res.json({ name: "Kampüs Etkinlikleri API", health: "/health", events: "/events" });
-});
+app.use(express.json()); // body → req.body
 
 app.get("/health", (req, res) => {
   res.json({
@@ -20,20 +14,18 @@ app.get("/health", (req, res) => {
   });
 });
 
-// Veritabanı gerektiren route'lardan önce bağlantıyı garanti et
-app.use("/events", async (req, res, next) => {
-  try { await connectDB(); next(); } catch (err) { next(err); }
-}, eventRoutes);
+app.use("/events", eventRoutes);
 
 app.use((req, res) => { // eşleşme yoksa
   res.status(404).json({ error: { message: "Route not found" } });
 });
 
-app.use((err, req, res, next) => { // beklenmeyen hata
-  const status = err.type === "entity.parse.failed" ? 400 : 500;
-  if (status === 500) console.error(err);
-  const message = status === 400 ? "Invalid JSON body" : "Server error";
-  res.status(status).json({ error: { message } });
+app.use((err, req, res, next) => { // hata yakalayıcı
+  console.error(err.message);
+  if (err.type === "entity.parse.failed") { // bozuk JSON body
+    return res.status(400).json({ error: { message: "Invalid JSON body" } });
+  }
+  res.status(500).json({ error: { message: "Server error" } });
 });
 
 export default app;
