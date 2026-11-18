@@ -1,5 +1,5 @@
-// Başlangıç verisi: `npm run seed` bu 6 etkinliği veritabanına yükler (id'leri MongoDB verir)
-export const events = [
+// npm run seed bu 6 etkinliği veritabanına ekler; id yok, _id'yi MongoDB verir
+export const seedEvents = [
   {
     title: "Bulut Bilişime Giriş Semineri",
     category: "Seminer",
