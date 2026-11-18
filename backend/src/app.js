@@ -22,9 +22,6 @@ app.use((req, res) => { // eşleşme yoksa
 
 app.use((err, req, res, next) => { // hata yakalayıcı
   console.error(err.message);
-  if (err.type === "entity.parse.failed") { // bozuk JSON body
-    return res.status(400).json({ error: { message: "Invalid JSON body" } });
-  }
   res.status(500).json({ error: { message: "Server error" } });
 });
 
