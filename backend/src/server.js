@@ -1,15 +1,15 @@
 import "dotenv/config";
 import app from "./app.js";
-import { connectDB } from "./models/db.js";
+import { connectDatabase } from "./config/database.js";
 
 const PORT = process.env.PORT || 3000;
 
+// Önce veritabanı, sonra sunucu
 try {
-  await connectDB();
+  await connectDatabase();
+  app.listen(PORT, () =>
+    console.log(`API: http://localhost:${PORT}`));
 } catch (err) {
-  console.error("Veritabanına bağlanılamadı:", err.message);
+  console.error(`Bağlanılamadı: ${err.message}`);
   process.exit(1);
 }
-
-app.listen(PORT, () =>
-  console.log(`API: http://localhost:${PORT}`));
