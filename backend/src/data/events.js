@@ -1,7 +1,6 @@
-// Bellek içi veri: sunucu yeniden başlayınca POST ile eklenenler kaybolur
+// Başlangıç verisi: `npm run seed` bu 6 etkinliği veritabanına yükler (id'leri MongoDB verir)
 export const events = [
   {
-    id: "event-1",
     title: "Bulut Bilişime Giriş Semineri",
     category: "Seminer",
     capacity: 80,
@@ -11,7 +10,6 @@ export const events = [
     description: "Bulutta ilk sanal sunucuyu kurmanın temelleri ve ücretsiz öğrenci kredileri.",
   },
   {
-    id: "event-2",
     title: "Raspberry Pi ile Akıllı Ev Atölyesi",
     category: "Atölye",
     capacity: 15,
@@ -21,7 +19,6 @@ export const events = [
     description: "Sıcaklık sensörü ve röle ile odanın ışığını telefondan yönetiyoruz.",
   },
   {
-    id: "event-3",
     title: "Bağımsız Oyun Geliştiricisiyle Söyleşi",
     category: "Söyleşi",
     capacity: 60,
@@ -31,7 +28,6 @@ export const events = [
     description: "Üç kişilik bir stüdyonun ilk oyununu yayınlama hikâyesi ve soru-cevap.",
   },
   {
-    id: "event-4",
     title: "Figma ile Arayüz Tasarımı Atölyesi",
     category: "Atölye",
     capacity: 25,
@@ -41,7 +37,6 @@ export const events = [
     description: "Bir mobil uygulamanın ekranlarını sıfırdan tıklanabilir prototipe dönüştürüyoruz.",
   },
   {
-    id: "event-5",
     title: "Algoritma Maratonu",
     category: "Yarışma",
     capacity: 45,
@@ -51,7 +46,6 @@ export const events = [
     description: "Üç kişilik takımlar beş saat boyunca en çok problemi çözmek için yarışıyor.",
   },
   {
-    id: "event-6",
     title: "Veri Bilimi Kariyer Semineri",
     category: "Seminer",
     capacity: 120,

@@ -68,6 +68,17 @@ npm run dev
 - Port `.env`'den okunur; route ve controller ayrı dosyalarda.
 - Çalıştırma, PORT ve REST sözleşmesi: [backend/README.md](backend/README.md)
 
+## 🍃 Sprint 8: MongoDB, Mongoose ve Canlıya Alma
+- Bellek içi dizi yerine **MongoDB**: `src/models/db.js` bağlantıyı `.env`'deki `MONGODB_URI`'den alır (yoksa yerel `mongodb://localhost:27017/kampus`).
+- `src/models/event.js`: Mongoose şeması (zorunlu alanlar, kategori listesi, tarih biçimi, kapasite ≥ 0) ve `Event` modeli.
+- Tam CRUD: `GET`, `POST`, `PUT`/`PATCH`, `DELETE /events/:id`; hatalı veri 400, olmayan kayıt 404.
+- `npm run seed` 6 başlangıç etkinliğini veritabanına yükler.
+- Veritabanı **MongoDB Atlas** üzerinde, API **Vercel** üzerinde; `MONGODB_URI` Vercel'de ortam değişkeni.
+- Postman collection'ı (**Namık Özköse**, 11 istek, otomatik testli): `backend/requests/kampus-api.json`, test ekran görüntüleri: [backend/README.md](backend/README.md#test-ekran-görüntüleri-vercel-adresi-üzerinde)
+
+### Canlı API
+_Vercel adresi buraya eklenecek_
+
 ---
 **Geliştirici:** Namık Özköse · 2416501021
 
