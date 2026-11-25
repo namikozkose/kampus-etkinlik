@@ -76,6 +76,14 @@ npm run dev
 - Geçersiz/olmayan id 404, eksik veri 400; beklenmeyen hata sunucuyu durdurmaz.
 - Ayrıntılar: [backend/README.md](backend/README.md)
 
+## ✏️ Sprint 9: Tam CRUD ve sorgular
+- `PATCH /events/:id`: sadece gönderilen alanlar değişir; boş body, korunan alan (`_id`, `createdAt`…), geçersiz kategori ya da tarih 400, olmayan id 404.
+- `DELETE /events/:id`: 204, gövde yok; ikinci silme 404.
+- `GET /events?search=&category=`: başlıkta büyük/küçük harf duyarsız arama (`$regex`) ve kategori filtresi.
+- `GET /events/upcoming`: bugün ve sonrası, en yakın önce (`$gte`); route `/:id`'den önce.
+- Tarih API'de her yerde `GG-AA-YYYY`, veritabanında `Date` (`src/utils/date.js`); seed'de 2 geçmiş tarihli etkinlik.
+- Collection Runner: 18 istek, 45 test, hepsi yeşil. Ayrıntılar: [backend/README.md](backend/README.md)
+
 ---
 **Geliştirici:** Namık Özköse · 2416501021
 
