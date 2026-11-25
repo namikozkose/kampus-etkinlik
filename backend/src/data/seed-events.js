@@ -1,10 +1,11 @@
-// npm run seed bu 6 etkinliği veritabanına ekler; id yok, _id'yi MongoDB verir
+// npm run seed bu 6 etkinliği ekler; id yok, _id'yi MongoDB verir.
+// Tarih "GG-AA-YYYY"; ilk ikisi geçmiş tarihli (/events/upcoming'de görünmez)
 export const seedEvents = [
   {
     title: "Bulut Bilişime Giriş Semineri",
     category: "Seminer",
     capacity: 80,
-    date: "2026-10-14",
+    date: "14-10-2026",
     time: "15:00",
     location: "Mühendislik Fakültesi Amfi 3",
     description: "Bulutta ilk sanal sunucuyu kurmanın temelleri ve ücretsiz öğrenci kredileri.",
@@ -13,7 +14,7 @@ export const seedEvents = [
     title: "Raspberry Pi ile Akıllı Ev Atölyesi",
     category: "Atölye",
     capacity: 15,
-    date: "2026-10-22",
+    date: "05-11-2026",
     time: "13:30",
     location: "Elektronik Laboratuvarı E-201",
     description: "Sıcaklık sensörü ve röle ile odanın ışığını telefondan yönetiyoruz.",
@@ -22,7 +23,7 @@ export const seedEvents = [
     title: "Bağımsız Oyun Geliştiricisiyle Söyleşi",
     category: "Söyleşi",
     capacity: 60,
-    date: "2026-10-29",
+    date: "03-12-2026",
     time: "16:00",
     location: "Kültür Merkezi Küçük Salon",
     description: "Üç kişilik bir stüdyonun ilk oyununu yayınlama hikâyesi ve soru-cevap.",
@@ -31,7 +32,7 @@ export const seedEvents = [
     title: "Figma ile Arayüz Tasarımı Atölyesi",
     category: "Atölye",
     capacity: 25,
-    date: "2026-11-05",
+    date: "10-12-2026",
     time: "11:00",
     location: "Tasarım Stüdyosu D-104",
     description: "Bir mobil uygulamanın ekranlarını sıfırdan tıklanabilir prototipe dönüştürüyoruz.",
@@ -40,7 +41,7 @@ export const seedEvents = [
     title: "Algoritma Maratonu",
     category: "Yarışma",
     capacity: 45,
-    date: "2026-11-12",
+    date: "17-12-2026",
     time: "09:30",
     location: "Merkez Kütüphane Bilgisayar Salonu",
     description: "Üç kişilik takımlar beş saat boyunca en çok problemi çözmek için yarışıyor.",
@@ -49,7 +50,7 @@ export const seedEvents = [
     title: "Veri Bilimi Kariyer Semineri",
     category: "Seminer",
     capacity: 120,
-    date: "2026-11-19",
+    date: "23-12-2026",
     time: "14:00",
     location: "Rektörlük Konferans Salonu",
     description: "Veri analisti olmak için gereken beceriler, sektörden gerçek proje örnekleriyle.",
